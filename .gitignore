@@ -1,0 +1,15 @@
+.env
+archive/
+
+.idea
+__pycache__
+
+pdffigures2/target/
+
+// Ignore the downloaded/derived data
+pdffigures2/evaluation/datasets/**/*.pdf
+pdffigures2/evaluation/datasets/**/*.jpeg
+pdffigures2/evaluation/datasets/**/*.jpg
+pdffigures2/evaluation/datasets/**/*.pgm
+
+pdffigures2/*.pkl
