@@ -1,26 +1,29 @@
-"""
-i need to get this scala stuff working otherwise i am going to extract incorrect.
+from google.cloud import storage
+import os
 
+def upload_images():
+    """
+    Uploads all images from the current page to the Google Cloud Storage bucket and returns their URLs
+    """
+    # Initialize the Google Cloud Storage client
+    client = storage.Client(project='mbtichat-388909')
 
+    # Get the bucket
+    bucket = client.get_bucket('mathreader')
 
-"""
+    image_urls = []
 
-from PyPDF2 import PdfReader
+    # Define the blob (name) for the image in the bucket
+    blob = bucket.blob(os.path.basename("main-Table4-1.png"))
 
-reader = PdfReader("cats.pdf")
+    # Upload the image to the bucket
+    blob.upload_from_filename("main-Table4-1.png")
 
-page = reader.pages[0]
-count = 0
+    # Get the URL of the uploaded image
+    image_url = blob.public_url
+    image_urls.append(image_url)
+    print(image_urls)
 
-for image_file_object in page.images:
-    with open(str(count) + image_file_object.name, "wb") as fp:
-        fp.write(image_file_object.data)
-        count += 1
-#sbt "runMain org.allenai.pdffigures2.FigureExtractorBatchCli /Users/maxhager/projects_2023/gpt_vision_plus/pdffigures2/pdf_dir/"
+    return image_urls
 
-#/Users/maxhager/projects_2023/gpt_vision_plus/pdffigures2/pdf_dir/
-
-#sbt "runMain org.allenai.pdffigures2.FigureExtractorBatchCli /Users/maxhager/projects_2023/gpt_vision_plus/pdffigures2/pdf_dir/ -d /Users/maxhager/projects_2023/gpt_vision_plus/pdffigures2/pdf_dir/ -m /Users/maxhager/projects_2023/gpt_vision_plus/pdffigures2/pdf_dir/"
-
-
-#sbt "runMain org.allenai.pdffigures2.FigureExtractorBatchCli /path/to/pdf_directory/ -d /path/to/figure/data/ -m /path/to/figure/images/"
+upload_images()

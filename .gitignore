@@ -5,6 +5,7 @@ archive/
 __pycache__
 
 pdffigures2/target/
+pdffigures2/pdf_dir/
 
 // Ignore the downloaded/derived data
 pdffigures2/evaluation/datasets/**/*.pdf
