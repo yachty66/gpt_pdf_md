@@ -1,5 +1,6 @@
 from PyPDF2 import PdfReader
 import json
+import shutil
 from google.cloud import storage
 import requests
 from pdf2image import convert_from_path
@@ -9,6 +10,7 @@ import io
 import os
 import subprocess
 from dotenv import load_dotenv
+import tempfile
 
 load_dotenv()
 
@@ -21,17 +23,15 @@ PDF_DIR = CURRENT_DIR + "/pdffigures2/pdf_dir/"
 PDF_FILE = CURRENT_DIR + "/pdffigures2/pdf_dir/main.pdf"
 PDFFIGURES2_PATH = CURRENT_DIR + "/pdffigures2/"
 
-def main():
+def main(pdf):
     """
+    control flow of app
     """
-    #extract_figures(PDFFIGURES2_PATH, PDF_DIR)
-    num_pages = number_pages_pdf(PDF_FILE)
-    #take first page of pdf --> convert to png --> feed to gpt V --> get markdown --> upload image to bucket --> insert image url into markdown
+    shutil.copy(pdf, PDF_FILE)
+    extract_figures(PDFFIGURES2_PATH, PDF_DIR)
     base64_images = pdf_to_image(PDF_FILE)
     for i, base64_image in enumerate(base64_images):
         markdown(base64_image, i)
-        if i == 3:  # Stop after processing the third image
-            break
 
 def number_pages_pdf(pdf_file):
     """
@@ -46,12 +46,14 @@ def extract_figures(library_path, pdf_path):
     """
     executes pdffigures2 for extracting figures from pdf. expects pdf from which images should be extracted to be at pdffigures2/pdf_dir/ and saves all extracted images also in this directory
     """
+    original_dir = os.getcwd()
     os.chdir(library_path)
     command = [
         "sbt",
         f'"runMain org.allenai.pdffigures2.FigureExtractorBatchCli {pdf_path} -d {pdf_path} -m {pdf_path}"'
     ]
     subprocess.run(" ".join(command), shell=True, check=True)
+    os.chdir(original_dir)
 
 def convert_pdf_to_images(pdf_path):
     """
@@ -79,6 +81,7 @@ def title():
     """
     gets the title of the pdf which is processed
     """
+    pass
 
 def markfown_file_tail():
     """
@@ -185,33 +188,3 @@ def upload_images(image_paths):
 
 if __name__ == "__main__":
     main()
-#print_pdf_binary('example.pdf')
-
-"""messages=[
-        {
-            "role": "user",
-            "content": [
-                {"type": "text", "text": "Please provide the content of the paper into markdown format. For math use latex format, i.e. within a pair of dollar signs for inline equations, and double dollar signs for block (display) equations."},
-                {
-                    "type": "image_url",
-                    "image_url": "https://i.imgur.com/6UKumeu.png",
-                },
-            ],
-        }
-    ]
-
-response = openai.ChatCompletion.create(
-            model="gpt-4-vision-preview",
-            messages=messages,
-            max_tokens=2000
-)
-result = response.choices[0]
-with open('output.md', 'w') as f:
-    f.write(result['message']['content'])
-print(result)
-
-
-def reader(image_url, path, return_file, bucket):
-    # Your code here
-    pass"""
-
