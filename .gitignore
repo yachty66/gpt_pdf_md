@@ -1,5 +1,8 @@
 .env
-archive/
+
+gpt_pdf_md/build/
+gpt_pdf_md/dist/
+gpt_pdf_md/gpt_pdf_md.egg-info/ 
 
 .idea
 __pycache__
