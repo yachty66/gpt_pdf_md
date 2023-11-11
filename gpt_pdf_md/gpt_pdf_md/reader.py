@@ -118,7 +118,7 @@ def markdown(base64_image, page, openai_api_key, google_id, google_bucket, pdf_d
 
     {markdown_tail}
 
-    For math, use LaTeX format; that is, enclose inline equations within a pair of dollar signs, and use double dollar signs for block (display) equations. In the case you are seeing a figure please mark this approriate. Do not include tick marks (```markdown```) and only respond with the Markdown and no additional elaboration.
+    For math, use LaTeX format; that is, enclose inline equations within a pair of dollar signs ($), and use double dollar signs ($$) for block (display) equations !IMPORTANT!. In the case you are seeing a figure please mark this approriate. Do not include tick marks (```markdown```) and only respond with the Markdown and no additional elaboration.
     """
 
     payload = {
