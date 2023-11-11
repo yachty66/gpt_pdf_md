@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='gpt_pdf_md',
-    version='0.1',
+    version='0.2',
     packages=find_packages(),
     description='A Python package that utilizes GPT-4V and other tools to convert PDFs into Markdown files.',
     long_description=open('README.md').read(),

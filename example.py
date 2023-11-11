@@ -1,4 +1,4 @@
-from gptpdfreader.reader import process_pdf
+from gpt_pdf_md.reader import process_pdf
 import os
 from dotenv import load_dotenv
 
