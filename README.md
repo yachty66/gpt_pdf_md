@@ -62,6 +62,7 @@ This will process the specified PDF and output a Markdown file with the extracte
 - [ ] Create a clearer README to make it easier for everyone to use the Python package
 - [ ] Improve error handling
 - [ ] add benchmarks (mathpix, nougat)
+- [ ] add pricing
 
 ## Contributing & Support
 
